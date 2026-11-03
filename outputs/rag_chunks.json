@@ -1,0 +1,236 @@
+[
+  {
+    "chunk_id": "01_spectral_indices.txt#0",
+    "source": "01_spectral_indices.txt",
+    "text": "Spectral Indices for Environmental Monitoring: NDVI, NDWI, MNDWI and NDBI Spectral indices combine reflectance in two or more bands to emphasise a surface property and reduce the influence of illumination and topography. All four indices used in GeoRAG-ML are normalised differences, so values fall between -1 and 1. The Normalized Difference Vegetation Index (NDVI) is computed as (NIR - Red) / (NIR + Red), following Rouse and colleagues (1974). Healthy green vegetation reflects strongly in the near-infrared and absorbs red light, which produces high NDVI. Water, clouds and bare surfaces give low or negative values.",
+    "page": null
+  },
+  {
+    "chunk_id": "01_spectral_indices.txt#1",
+    "source": "01_spectral_indices.txt",
+    "text": "Healthy green vegetation reflects strongly in the near-infrared and absorbs red light, which produces high NDVI. Water, clouds and bare surfaces give low or negative values. NDVI saturates over dense canopies and responds to crop phenology, so a low NDVI over cropland in the pre-monsoon season can reflect harvest timing rather than land degradation. The Normalized Difference Water Index (NDWI) of McFeeters (1996) is (Green - NIR) / (Green + NIR). Open water reflects more green than near-infrared light, so water tends to be positive. Built-up surfaces can also produce positive NDWI, which causes false water detections in urban areas.",
+    "page": null
+  },
+  {
+    "chunk_id": "01_spectral_indices.txt#2",
+    "source": "01_spectral_indices.txt",
+    "text": "Open water reflects more green than near-infrared light, so water tends to be positive. Built-up surfaces can also produce positive NDWI, which causes false water detections in urban areas. The Modified NDWI (MNDWI) of Xu (2006) replaces the near-infrared band with shortwave infrared: (Green - SWIR1) / (Green + SWIR1). It suppresses built-up noise and generally separates open water from built-up land better than NDWI. Turbid river water and shallow water can still be misclassified. The Normalized Difference Built-up Index (NDBI) of Zha and colleagues (2003) is (SWIR1 - NIR) / (SWIR1 + NIR). Built-up land and bare soil reflect more shortwave infrared than near-infrared light and give higher values.",
+    "page": null
+  },
+  {
+    "chunk_id": "01_spectral_indices.txt#3",
+    "source": "01_spectral_indices.txt",
+    "text": "The Normalized Difference Built-up Index (NDBI) of Zha and colleagues (2003) is (SWIR1 - NIR) / (SWIR1 + NIR). Built-up land and bare soil reflect more shortwave infrared than near-infrared light and give higher values. NDBI is confounded by dry bare soil and harvested fields, so it indicates built-up or bare conditions rather than confirming urban land cover. Index thresholds are scene, sensor and season dependent. A change in an index between two dates is evidence of a spectral change, not a validated land-cover transition. Confirming a transition requires independent reference data and an accuracy assessment.",
+    "page": null
+  },
+  {
+    "chunk_id": "02_sentinel2_surface_reflectance.txt#0",
+    "source": "02_sentinel2_surface_reflectance.txt",
+    "text": "Sentinel-2 Surface Reflectance Data Documentation Sentinel-2 carries the MultiSpectral Instrument (MSI) and provides optical imagery in 13 spectral bands. A constellation of two satellites gives a revisit time of about five days at the equator. The bands used in this project are B3 (green, about 560 nm, 10 m), B4 (red, about 665 nm, 10 m), B8 (near-infrared, about 842 nm, 10 m) and B11 (shortwave infrared 1, about 1610 nm, 20 m). On Google Earth Engine, the harmonized Level-2A collection is COPERNICUS/S2_SR_HARMONIZED. Reflectance digital numbers are scaled by 10000, so reflectance equals the digital number multiplied by 0.0001.",
+    "page": null
+  },
+  {
+    "chunk_id": "02_sentinel2_surface_reflectance.txt#1",
+    "source": "02_sentinel2_surface_reflectance.txt",
+    "text": "On Google Earth Engine, the harmonized Level-2A collection is COPERNICUS/S2_SR_HARMONIZED. Reflectance digital numbers are scaled by 10000, so reflectance equals the digital number multiplied by 0.0001. The harmonized collection corrects the radiometric offset introduced by processing baseline 04.00 in January 2022, which keeps time series consistent across that change. Cloud and shadow masking uses the Scene Classification Layer (SCL) band. SCL values are: 0 no data, 1 saturated or defective, 2 dark area pixels, 3 cloud shadows, 4 vegetation, 5 not vegetated, 6 water, 7 unclassified, 8 cloud medium probability, 9 cloud high probability, 10 thin cirrus, 11 snow or ice.",
+    "page": null
+  },
+  {
+    "chunk_id": "02_sentinel2_surface_reflectance.txt#2",
+    "source": "02_sentinel2_surface_reflectance.txt",
+    "text": "SCL values are: 0 no data, 1 saturated or defective, 2 dark area pixels, 3 cloud shadows, 4 vegetation, 5 not vegetated, 6 water, 7 unclassified, 8 cloud medium probability, 9 cloud high probability, 10 thin cirrus, 11 snow or ice. GeoRAG-ML masks classes 3, 8, 9, 10 and 11 before computing indices. SCL-based masking can miss thin clouds and haze, and it can wrongly flag bright built-up surfaces, so a median composite over a date window is used to reduce residual contamination. B11 is natively 20 m.",
+    "page": null
+  },
+  {
+    "chunk_id": "02_sentinel2_surface_reflectance.txt#3",
+    "source": "02_sentinel2_surface_reflectance.txt",
+    "text": "SCL-based masking can miss thin clouds and haze, and it can wrongly flag bright built-up surfaces, so a median composite over a date window is used to reduce residual contamination. B11 is natively 20 m. When bands are combined at 10 m, B11 is resampled, so SWIR-based indices such as MNDWI and NDBI have an effective resolution coarser than the 10 m bands. In this project all layers are aggregated to a common 30 m grid. Surface reflectance depends on atmospheric correction quality, view and sun geometry, and the seasonal window. Composites from different years should use the same calendar window to limit phenological differences.",
+    "page": null
+  },
+  {
+    "chunk_id": "03_landsat_surface_temperature.txt#0",
+    "source": "03_landsat_surface_temperature.txt",
+    "text": "Landsat Collection 2 Level-2 Surface Reflectance and Surface Temperature Landsat 8 (launched in 2013) and Landsat 9 (launched in September 2021) carry the Operational Land Imager (OLI) and the Thermal Infrared Sensor (TIRS). Each satellite revisits a location every 16 days, and the two together provide an 8-day combined revisit. Earth Engine collections are LANDSAT/LC08/C02/T1_L2 and LANDSAT/LC09/C02/T1_L2. Surface reflectance bands (SR_B1 to SR_B7) are converted to reflectance with a scale factor of 0.0000275 and an offset of -0.2. Surface temperature band ST_B10 is converted to Kelvin with a scale factor of 0.00341802 and an offset of 149.0, then to degrees Celsius by subtracting 273.15.",
+    "page": null
+  },
+  {
+    "chunk_id": "03_landsat_surface_temperature.txt#1",
+    "source": "03_landsat_surface_temperature.txt",
+    "text": "Surface temperature band ST_B10 is converted to Kelvin with a scale factor of 0.00341802 and an offset of 149.0, then to degrees Celsius by subtracting 273.15. The ST_QA band gives a per-pixel uncertainty estimate for the temperature product. Cloud masking uses the QA_PIXEL band. Bit 1 flags dilated cloud, bit 2 cirrus, bit 3 cloud, bit 4 cloud shadow and bit 5 snow. A pixel is treated as clear when none of these bits are set. Thermal data are especially sensitive to undetected cloud, because cloud tops are cold and bias land surface temperature low.",
+    "page": null
+  },
+  {
+    "chunk_id": "03_landsat_surface_temperature.txt#2",
+    "source": "03_landsat_surface_temperature.txt",
+    "text": "A pixel is treated as clear when none of these bits are set. Thermal data are especially sensitive to undetected cloud, because cloud tops are cold and bias land surface temperature low. The thermal band is acquired at 100 m resolution and resampled to 30 m in the Level-2 product. Land surface temperature (LST) is the radiative skin temperature of the surface, which differs from air temperature. LST varies strongly with land cover, soil moisture, vegetation, time of day and season. Landsat overpasses occur in the late morning, so LST from Landsat does not represent daily maximum or night-time conditions.",
+    "page": null
+  },
+  {
+    "chunk_id": "03_landsat_surface_temperature.txt#3",
+    "source": "03_landsat_surface_temperature.txt",
+    "text": "LST varies strongly with land cover, soil moisture, vegetation, time of day and season. Landsat overpasses occur in the late morning, so LST from Landsat does not represent daily maximum or night-time conditions. In GeoRAG-ML the target variable is derived from Landsat LST, while predictors come from Sentinel-2, SRTM and CHIRPS. Using a different sensor for the target reduces direct leakage between target and predictors.",
+    "page": null
+  },
+  {
+    "chunk_id": "04_terrain_precipitation_landcover.txt#0",
+    "source": "04_terrain_precipitation_landcover.txt",
+    "text": "Terrain, Precipitation and Land-Cover Reference Datasets SRTM elevation. The Shuttle Radar Topography Mission (Farr and colleagues, 2007) produced near-global elevation data in February 2000. The 1 arc-second product, about 30 m, is available on Earth Engine as USGS/SRTMGL1_003. SRTM measures the surface including vegetation canopy and buildings to some extent, so it is closer to a surface model than a bare-earth terrain model. Slope is derived from elevation. In low-relief floodplains such as much of Bangladesh, vertical error can be comparable to real elevation differences, so elevation and slope carry limited information there. CHIRPS precipitation.",
+    "page": null
+  },
+  {
+    "chunk_id": "04_terrain_precipitation_landcover.txt#1",
+    "source": "04_terrain_precipitation_landcover.txt",
+    "text": "In low-relief floodplains such as much of Bangladesh, vertical error can be comparable to real elevation differences, so elevation and slope carry limited information there. CHIRPS precipitation. Climate Hazards Group InfraRed Precipitation with Station data (Funk and colleagues, 2015) blends satellite infrared estimates with rain-gauge data. It is quasi-global, available from 1981, at 0.05 degree resolution, which is roughly 5.5 km. The Earth Engine daily collection is UCSB-CHG/CHIRPS/DAILY. Because the native resolution is much coarser than Landsat or Sentinel-2, CHIRPS-derived features appear as large blocks and add little pixel-level discrimination. Their main value is regional context. ESA WorldCover.",
+    "page": null
+  },
+  {
+    "chunk_id": "04_terrain_precipitation_landcover.txt#2",
+    "source": "04_terrain_precipitation_landcover.txt",
+    "text": "Because the native resolution is much coarser than Landsat or Sentinel-2, CHIRPS-derived features appear as large blocks and add little pixel-level discrimination. Their main value is regional context. ESA WorldCover. WorldCover provides a 10 m global land-cover map derived from Sentinel-1 and Sentinel-2, with versions for 2020 (v100) and 2021 (v200). Earth Engine collections are ESA/WorldCover/v100 and ESA/WorldCover/v200, band Map. Class codes: 10 tree cover, 20 shrubland, 30 grassland, 40 cropland, 50 built-up, 60 bare or sparse vegetation, 70 snow and ice, 80 permanent water bodies, 90 herbaceous wetland, 95 mangroves, 100 moss and lichen.",
+    "page": null
+  },
+  {
+    "chunk_id": "04_terrain_precipitation_landcover.txt#3",
+    "source": "04_terrain_precipitation_landcover.txt",
+    "text": "Class codes: 10 tree cover, 20 shrubland, 30 grassland, 40 cropland, 50 built-up, 60 bare or sparse vegetation, 70 snow and ice, 80 permanent water bodies, 90 herbaceous wetland, 95 mangroves, 100 moss and lichen. Product validation reports overall accuracy in the mid-70 percent range globally, and accuracy varies by class and region. WorldCover is a single-epoch product in this workflow, so it is used as a reference layer and not as evidence of land-cover change between 2019 and 2025.",
+    "page": null
+  },
+  {
+    "chunk_id": "05_machine_learning_methods.txt#0",
+    "source": "05_machine_learning_methods.txt",
+    "text": "Machine Learning Methods and Evaluation Metrics Four supervised classifiers are compared for binary environmental risk classification. Logistic regression models the log-odds of the positive class as a linear function of the predictors. It is fast, interpretable and a useful baseline. It requires feature scaling and cannot represent nonlinear interactions unless they are engineered. Support vector machines with a radial basis function kernel find a maximum-margin boundary in a transformed feature space. They need scaled inputs, and their training cost grows quickly with sample size. Hyperparameters C and gamma control margin softness and kernel width. Random forests (Breiman, 2001) average many decision trees trained on bootstrap samples with random feature subsets.",
+    "page": null
+  },
+  {
+    "chunk_id": "05_machine_learning_methods.txt#1",
+    "source": "05_machine_learning_methods.txt",
+    "text": "Hyperparameters C and gamma control margin softness and kernel width. Random forests (Breiman, 2001) average many decision trees trained on bootstrap samples with random feature subsets. They handle nonlinearity and interactions, need no scaling and are robust to noise, but can extrapolate poorly outside the training range. XGBoost (Chen and Guestrin, 2016) builds trees sequentially with gradient boosting and regularisation. Key hyperparameters are tree depth, learning rate and the number of trees. Metrics. Accuracy is the share of correct predictions. Precision is the share of predicted positives that are truly positive. Recall is the share of true positives that are found.",
+    "page": null
+  },
+  {
+    "chunk_id": "05_machine_learning_methods.txt#2",
+    "source": "05_machine_learning_methods.txt",
+    "text": "Accuracy is the share of correct predictions. Precision is the share of predicted positives that are truly positive. Recall is the share of true positives that are found. The F1-score is the harmonic mean of precision and recall. ROC-AUC is the probability that a randomly chosen positive receives a higher score than a randomly chosen negative, and it does not depend on a single threshold. The confusion matrix reports true negatives, false positives, false negatives and true positives. When classes are imbalanced, accuracy can be misleading, so precision, recall, F1 and AUC should be read together. Preprocessing. Missing values are imputed with the training-fold median inside the modelling pipeline.",
+    "page": null
+  },
+  {
+    "chunk_id": "05_machine_learning_methods.txt#3",
+    "source": "05_machine_learning_methods.txt",
+    "text": "When classes are imbalanced, accuracy can be misleading, so precision, recall, F1 and AUC should be read together. Preprocessing. Missing values are imputed with the training-fold median inside the modelling pipeline. Scaling is fitted on training folds only. Fitting any transformation on the full dataset before splitting is a form of data leakage.",
+    "page": null
+  },
+  {
+    "chunk_id": "06_spatial_validation.txt#0",
+    "source": "06_spatial_validation.txt",
+    "text": "Spatial Validation and Data Leakage in Geospatial Machine Learning Environmental variables are spatially autocorrelated: nearby locations tend to have similar values. If training and test pixels are drawn at random, test pixels often have near neighbours in the training set. The model can then score well by interpolating between neighbours, and performance estimates become optimistic. This is a well documented problem for ecological and remote-sensing models (Roberts and colleagues, 2017). Spatial block cross-validation assigns whole geographic blocks to folds so that test locations lie away from training locations. Blocks that are too small do not remove autocorrelation, and blocks that are too large leave few training samples.",
+    "page": null
+  },
+  {
+    "chunk_id": "06_spatial_validation.txt#1",
+    "source": "06_spatial_validation.txt",
+    "text": "Spatial block cross-validation assigns whole geographic blocks to folds so that test locations lie away from training locations. Blocks that are too small do not remove autocorrelation, and blocks that are too large leave few training samples. Block size should be related to the range of spatial autocorrelation in the data. Buffering removes training samples that lie close to the test region. GeoRAG-ML drops training samples in blocks adjacent to the test region. This reduces leakage across block borders but does not eliminate it, and it reduces the training set size.",
+    "page": null
+  },
+  {
+    "chunk_id": "06_spatial_validation.txt#2",
+    "source": "06_spatial_validation.txt",
+    "text": "GeoRAG-ML drops training samples in blocks adjacent to the test region. This reduces leakage across block borders but does not eliminate it, and it reduces the training set size. Contiguous cluster folds are used here: blocks are grouped into geographic regions with k-means on block centroids, and each region becomes a test fold in turn. A separate region is held out entirely as a final test area and is never used for tuning. A model evaluated on held-out regions estimates performance inside the sampled environmental range. It does not prove that the model transfers to other regions, seasons or years. Extrapolating to unseen conditions requires explicit transferability tests.",
+    "page": null
+  },
+  {
+    "chunk_id": "06_spatial_validation.txt#3",
+    "source": "06_spatial_validation.txt",
+    "text": "A model evaluated on held-out regions estimates performance inside the sampled environmental range. It does not prove that the model transfers to other regions, seasons or years. Extrapolating to unseen conditions requires explicit transferability tests. Other leakage sources include predictors derived from the target, imputation or scaling fitted on all data, and tuning on the final test set. The target in this project comes from Landsat thermal data, and no LST-derived feature is used as a predictor.",
+    "page": null
+  },
+  {
+    "chunk_id": "07_shap_explainability.txt#0",
+    "source": "07_shap_explainability.txt",
+    "text": "Explainable AI with SHAP SHAP (SHapley Additive exPlanations; Lundberg and Lee, 2017) explains an individual prediction by assigning each feature a contribution, based on Shapley values from cooperative game theory. The contributions plus a base value sum to the model output for that sample. For tree ensembles, the TreeSHAP algorithm computes exact Shapley values efficiently (Lundberg and colleagues, 2020). The SHAP beeswarm summary plot shows one point per sample and feature. Horizontal position is the SHAP value, and colour shows the feature value. It reveals both how much a feature matters and in which direction it pushes predictions. The mean absolute SHAP value gives a global importance ranking.",
+    "page": null
+  },
+  {
+    "chunk_id": "07_shap_explainability.txt#1",
+    "source": "07_shap_explainability.txt",
+    "text": "It reveals both how much a feature matters and in which direction it pushes predictions. The mean absolute SHAP value gives a global importance ranking. A SHAP dependence plot shows a feature's SHAP value against its value and can reveal nonlinear relationships and interactions, with a second feature shown by colour. Interpretation cautions. SHAP explains the fitted model, not the real-world process. A feature with a large SHAP value is important to the model, and this does not establish a causal effect. When features are correlated, such as NDVI and its neighbourhood mean, importance is shared between them and each individual ranking can be unstable.",
+    "page": null
+  },
+  {
+    "chunk_id": "07_shap_explainability.txt#2",
+    "source": "07_shap_explainability.txt",
+    "text": "A feature with a large SHAP value is important to the model, and this does not establish a causal effect. When features are correlated, such as NDVI and its neighbourhood mean, importance is shared between them and each individual ranking can be unstable. Explanations are conditional on the training distribution, and extrapolating to other regions is unsafe. SHAP values for a boosted-tree model are typically in log-odds units, while forest models use probability units. Permutation importance is a complementary model-agnostic check. It measures the drop in a performance metric when one feature is randomly shuffled on held-out data.",
+    "page": null
+  },
+  {
+    "chunk_id": "07_shap_explainability.txt#3",
+    "source": "07_shap_explainability.txt",
+    "text": "SHAP values for a boosted-tree model are typically in log-odds units, while forest models use probability units. Permutation importance is a complementary model-agnostic check. It measures the drop in a performance metric when one feature is randomly shuffled on held-out data. Agreement between SHAP and permutation importance strengthens confidence in a ranking, and disagreement should be investigated rather than ignored.",
+    "page": null
+  },
+  {
+    "chunk_id": "08_rag_methodology.txt#0",
+    "source": "08_rag_methodology.txt",
+    "text": "Retrieval-Augmented Generation for Scientific Documentation Retrieval-augmented generation combines a retrieval step with an answer step so that answers are grounded in supplied documents (Lewis and colleagues, 2020). The GeoRAG-ML pipeline ingests PDF and plain-text files, extracts text, and splits it into overlapping chunks of about 110 words, cut at sentence boundaries. Overlap preserves context across chunk borders. Each chunk is embedded as a vector. The preferred embedding model is a Sentence-Transformers model (Reimers and Gurevych, 2019). When that model cannot be downloaded, the pipeline falls back to TF-IDF followed by latent semantic analysis, and it reports which backend is active.",
+    "page": null
+  },
+  {
+    "chunk_id": "08_rag_methodology.txt#1",
+    "source": "08_rag_methodology.txt",
+    "text": "The preferred embedding model is a Sentence-Transformers model (Reimers and Gurevych, 2019). When that model cannot be downloaded, the pipeline falls back to TF-IDF followed by latent semantic analysis, and it reports which backend is active. Vectors are L2-normalised so that the inner product equals cosine similarity. Vectors are stored in a FAISS index (Johnson and colleagues, 2019). An exact inner-product index is used because the corpus is small. A question is embedded the same way, and the top-k most similar chunks are returned with their similarity scores and source file names. Evidence sufficiency.",
+    "page": null
+  },
+  {
+    "chunk_id": "08_rag_methodology.txt#2",
+    "source": "08_rag_methodology.txt",
+    "text": "A question is embedded the same way, and the top-k most similar chunks are returned with their similarity scores and source file names. Evidence sufficiency. A question is answered only when the best similarity score exceeds a threshold and the retrieved text shares enough keywords with the question. Otherwise the system reports that evidence is insufficient. Thresholds depend on the embedding model and should be calibrated on a labelled question set. Answer generation. By default the system returns evidence sentences copied from the retrieved chunks, each tagged with its source document.",
+    "page": null
+  },
+  {
+    "chunk_id": "08_rag_methodology.txt#3",
+    "source": "08_rag_methodology.txt",
+    "text": "Thresholds depend on the embedding model and should be calibrated on a labelled question set. Answer generation. By default the system returns evidence sentences copied from the retrieved chunks, each tagged with its source document. A generative language model is used only if an API key is configured, and it is instructed to answer from the retrieved context alone and to cite sources. Without a key, no language-model text is produced. Known limitations: retrieval can miss relevant passages when wording differs from the question, similarity scores do not guarantee factual correctness, and answers are limited by the content and quality of the indexed documents.",
+    "page": null
+  },
+  {
+    "chunk_id": "09_project_data_card.txt#0",
+    "source": "09_project_data_card.txt",
+    "text": "GeoRAG-ML Project Data Card and Study Design Study area. Natore District, Bangladesh, in the Rajshahi Division, on the Ganges-Brahmaputra floodplain. The workflow uses the district boundary from FAO GAUL 2015 level 2 on Earth Engine, with a rectangular bounding box as a documented fallback. The coordinate reference system is WGS 84 / UTM zone 45N (EPSG:32645). Periods. Two pre-monsoon composites are compared: 1 March to 30 April 2019 (t1) and 1 March to 30 April 2025 (t2). The same calendar window is used for both years to limit phenological differences. Target variable.",
+    "page": null
+  },
+  {
+    "chunk_id": "09_project_data_card.txt#1",
+    "source": "09_project_data_card.txt",
+    "text": "Two pre-monsoon composites are compared: 1 March to 30 April 2019 (t1) and 1 March to 30 April 2025 (t2). The same calendar window is used for both years to limit phenological differences. Target variable. Urban heat risk, defined as a binary class: a pixel is high risk when its Landsat land surface temperature in t2 is at or above the 75th percentile of the study area. The class is relative to the scene. It is not an absolute heat-stress threshold and is not a health outcome. Predictors.",
+    "page": null
+  },
+  {
+    "chunk_id": "09_project_data_card.txt#2",
+    "source": "09_project_data_card.txt",
+    "text": "Urban heat risk, defined as a binary class: a pixel is high risk when its Landsat land surface temperature in t2 is at or above the 75th percentile of the study area. The class is relative to the scene. It is not an absolute heat-stress threshold and is not a health outcome. Predictors. Sentinel-2 indices for t2 (NDVI, NDWI, MNDWI, NDBI), 5 by 5 neighbourhood means of NDVI and NDBI, index changes between t2 and t1, distance to open water, SRTM elevation and slope, and CHIRPS precipitation total for t2. No Landsat thermal variable and no pixel coordinates are used as predictors. Reference land cover.",
+    "page": null
+  },
+  {
+    "chunk_id": "09_project_data_card.txt#3",
+    "source": "09_project_data_card.txt",
+    "text": "Sentinel-2 indices for t2 (NDVI, NDWI, MNDWI, NDBI), 5 by 5 neighbourhood means of NDVI and NDBI, index changes between t2 and t1, distance to open water, SRTM elevation and slope, and CHIRPS precipitation total for t2. No Landsat thermal variable and no pixel coordinates are used as predictors. Reference land cover. ESA WorldCover is used for the land-cover distribution chart and for context. It is not used as a predictor. Real versus synthetic data mode. The repository supports a real-data mode that reads GeoTIFFs exported from Google Earth Engine, and a synthetic demonstration mode that simulates a scene so the pipeline can run without network access.",
+    "page": null
+  },
+  {
+    "chunk_id": "09_project_data_card.txt#4",
+    "source": "09_project_data_card.txt",
+    "text": "The repository supports a real-data mode that reads GeoTIFFs exported from Google Earth Engine, and a synthetic demonstration mode that simulates a scene so the pipeline can run without network access. Results from synthetic mode describe the simulator and verify that the code works. They are not environmental findings about Natore or any real place. Every figure and report produced from synthetic data is labelled accordingly. Intended use. Research prototyping and methodological demonstration. The model is not validated for operational decision-making.",
+    "page": null
+  },
+  {
+    "chunk_id": "model_report.txt#0",
+    "source": "model_report.txt",
+    "text": "GeoRAG-ML automatically generated run report. Data mode: SYNTHETIC demonstration scene. The figures below describe a simulated scene and are not findings about any real place. The study uses 9000 sampled pixels, a high-risk threshold of 37.21 degrees Celsius, and a held-out contiguous test region with 1547 samples. Held-out region performance of Logistic Regression: ROC-AUC 0.855, F1-score 0.577, precision 0.484, recall 0.715, accuracy 0.748. Held-out region performance of SVM (RBF): ROC-AUC 0.877, F1-score 0.616, precision 0.468, recall 0.898, accuracy 0.730. Held-out region performance of Random Forest: ROC-AUC 0.896, F1-score 0.689, precision 0.709, recall 0.669, accuracy 0.855. Held-out region performance of XGBoost: ROC-AUC 0.898, F1-score 0.711, precision 0.676, recall 0.750, accuracy 0.853.",
+    "page": null
+  },
+  {
+    "chunk_id": "model_report.txt#1",
+    "source": "model_report.txt",
+    "text": "Held-out region performance of Random Forest: ROC-AUC 0.896, F1-score 0.689, precision 0.709, recall 0.669, accuracy 0.855. Held-out region performance of XGBoost: ROC-AUC 0.898, F1-score 0.711, precision 0.676, recall 0.750, accuracy 0.853. The model with the highest ROC-AUC on the held-out region was XGBoost with 0.898. Validation strategy comparison: random stratified cross-validation gave a mean ROC-AUC of 0.922 for the Random Forest, while buffered spatial cross-validation gave 0.787, so random splitting overstated performance by 0.135 AUC. Most influential predictors: according to mean absolute SHAP values, the most influential predictors of the XGBoost model were ndbi_focal5, dist_water_m, precip_t2.",
+    "page": null
+  }
+]

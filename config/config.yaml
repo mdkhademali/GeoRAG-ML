@@ -1,0 +1,53 @@
+# GeoRAG-ML configuration. Every tunable lives here; nothing secret is stored in this file.
+project: GeoRAG-ML
+random_seed: 42
+
+# data_mode: auto      -> use GeoTIFFs in data/raw/ if present, else synthetic demonstration scene
+#            synthetic -> always simulate (pipeline verification only; NOT scientific findings)
+#            real      -> require GeoTIFFs exported by src/gee_acquisition.py
+data_mode: auto
+
+study_area:
+  name: "Natore District, Bangladesh"
+  gaul_adm2_name: "Natore"          # FAO GAUL 2015 level-2 name used on Earth Engine
+  bbox_lonlat: [88.65, 24.05, 89.35, 24.65]   # lon_min, lat_min, lon_max, lat_max (fallback AOI)
+  utm_epsg: 32645                    # WGS 84 / UTM zone 45N
+
+periods:
+  t1: {label: "2019", start: "2019-03-01", end: "2019-04-30"}   # pre-monsoon composite
+  t2: {label: "2025", start: "2025-03-01", end: "2025-04-30"}
+
+grid:
+  synthetic_pixel_m: 300             # synthetic demo grid; real exports use 30 m
+  real_pixel_m: 30
+
+target:
+  name: urban_heat_risk
+  lst_percentile: 75                 # high-risk = LST_t2 >= this scene percentile
+
+sampling:
+  n_samples: 9000
+  min_valid_fraction: 0.8            # drop pixels with < 80 % valid predictors
+
+cv:
+  block_size_m: 4000
+  n_splits: 5
+  buffer_blocks: 1                   # training blocks within this Chebyshev distance of test blocks are dropped
+  test_block_fraction: 0.2
+
+change:
+  ndvi_threshold: 0.15
+  ndbi_threshold: 0.08
+  mndwi_threshold: 0.15
+
+rag:
+  documents_dir: documents
+  extra_documents: [outputs/model_report.txt]
+  chunk_words: 110
+  chunk_overlap_words: 25
+  top_k: 4
+  embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+  min_score_dense: 0.30              # cosine threshold for dense (sentence-transformer) retrieval
+  min_score_lsa: 0.20                # cosine threshold for the TF-IDF/LSA fallback backend
+  min_keyword_overlap: 0.34          # share of query keywords that must appear in the best chunk
+  llm_model: "claude-sonnet-5-5"     # used ONLY if ANTHROPIC_API_KEY is set in the environment

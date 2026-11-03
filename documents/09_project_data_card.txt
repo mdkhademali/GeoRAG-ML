@@ -1,0 +1,15 @@
+GeoRAG-ML Project Data Card and Study Design
+
+Study area. Natore District, Bangladesh, in the Rajshahi Division, on the Ganges-Brahmaputra floodplain. The workflow uses the district boundary from FAO GAUL 2015 level 2 on Earth Engine, with a rectangular bounding box as a documented fallback. The coordinate reference system is WGS 84 / UTM zone 45N (EPSG:32645).
+
+Periods. Two pre-monsoon composites are compared: 1 March to 30 April 2019 (t1) and 1 March to 30 April 2025 (t2). The same calendar window is used for both years to limit phenological differences.
+
+Target variable. Urban heat risk, defined as a binary class: a pixel is high risk when its Landsat land surface temperature in t2 is at or above the 75th percentile of the study area. The class is relative to the scene. It is not an absolute heat-stress threshold and is not a health outcome.
+
+Predictors. Sentinel-2 indices for t2 (NDVI, NDWI, MNDWI, NDBI), 5 by 5 neighbourhood means of NDVI and NDBI, index changes between t2 and t1, distance to open water, SRTM elevation and slope, and CHIRPS precipitation total for t2. No Landsat thermal variable and no pixel coordinates are used as predictors.
+
+Reference land cover. ESA WorldCover is used for the land-cover distribution chart and for context. It is not used as a predictor.
+
+Real versus synthetic data mode. The repository supports a real-data mode that reads GeoTIFFs exported from Google Earth Engine, and a synthetic demonstration mode that simulates a scene so the pipeline can run without network access. Results from synthetic mode describe the simulator and verify that the code works. They are not environmental findings about Natore or any real place. Every figure and report produced from synthetic data is labelled accordingly.
+
+Intended use. Research prototyping and methodological demonstration. The model is not validated for operational decision-making.

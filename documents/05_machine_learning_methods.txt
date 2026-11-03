@@ -1,0 +1,15 @@
+Machine Learning Methods and Evaluation Metrics
+
+Four supervised classifiers are compared for binary environmental risk classification.
+
+Logistic regression models the log-odds of the positive class as a linear function of the predictors. It is fast, interpretable and a useful baseline. It requires feature scaling and cannot represent nonlinear interactions unless they are engineered.
+
+Support vector machines with a radial basis function kernel find a maximum-margin boundary in a transformed feature space. They need scaled inputs, and their training cost grows quickly with sample size. Hyperparameters C and gamma control margin softness and kernel width.
+
+Random forests (Breiman, 2001) average many decision trees trained on bootstrap samples with random feature subsets. They handle nonlinearity and interactions, need no scaling and are robust to noise, but can extrapolate poorly outside the training range.
+
+XGBoost (Chen and Guestrin, 2016) builds trees sequentially with gradient boosting and regularisation. Key hyperparameters are tree depth, learning rate and the number of trees.
+
+Metrics. Accuracy is the share of correct predictions. Precision is the share of predicted positives that are truly positive. Recall is the share of true positives that are found. The F1-score is the harmonic mean of precision and recall. ROC-AUC is the probability that a randomly chosen positive receives a higher score than a randomly chosen negative, and it does not depend on a single threshold. The confusion matrix reports true negatives, false positives, false negatives and true positives. When classes are imbalanced, accuracy can be misleading, so precision, recall, F1 and AUC should be read together.
+
+Preprocessing. Missing values are imputed with the training-fold median inside the modelling pipeline. Scaling is fitted on training folds only. Fitting any transformation on the full dataset before splitting is a form of data leakage.

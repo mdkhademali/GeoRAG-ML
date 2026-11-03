@@ -1,0 +1,13 @@
+Spatial Validation and Data Leakage in Geospatial Machine Learning
+
+Environmental variables are spatially autocorrelated: nearby locations tend to have similar values. If training and test pixels are drawn at random, test pixels often have near neighbours in the training set. The model can then score well by interpolating between neighbours, and performance estimates become optimistic. This is a well documented problem for ecological and remote-sensing models (Roberts and colleagues, 2017).
+
+Spatial block cross-validation assigns whole geographic blocks to folds so that test locations lie away from training locations. Blocks that are too small do not remove autocorrelation, and blocks that are too large leave few training samples. Block size should be related to the range of spatial autocorrelation in the data.
+
+Buffering removes training samples that lie close to the test region. GeoRAG-ML drops training samples in blocks adjacent to the test region. This reduces leakage across block borders but does not eliminate it, and it reduces the training set size.
+
+Contiguous cluster folds are used here: blocks are grouped into geographic regions with k-means on block centroids, and each region becomes a test fold in turn. A separate region is held out entirely as a final test area and is never used for tuning.
+
+A model evaluated on held-out regions estimates performance inside the sampled environmental range. It does not prove that the model transfers to other regions, seasons or years. Extrapolating to unseen conditions requires explicit transferability tests.
+
+Other leakage sources include predictors derived from the target, imputation or scaling fitted on all data, and tuning on the final test set. The target in this project comes from Landsat thermal data, and no LST-derived feature is used as a predictor.

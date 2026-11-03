@@ -1,0 +1,9 @@
+Explainable AI with SHAP
+
+SHAP (SHapley Additive exPlanations; Lundberg and Lee, 2017) explains an individual prediction by assigning each feature a contribution, based on Shapley values from cooperative game theory. The contributions plus a base value sum to the model output for that sample. For tree ensembles, the TreeSHAP algorithm computes exact Shapley values efficiently (Lundberg and colleagues, 2020).
+
+The SHAP beeswarm summary plot shows one point per sample and feature. Horizontal position is the SHAP value, and colour shows the feature value. It reveals both how much a feature matters and in which direction it pushes predictions. The mean absolute SHAP value gives a global importance ranking. A SHAP dependence plot shows a feature's SHAP value against its value and can reveal nonlinear relationships and interactions, with a second feature shown by colour.
+
+Interpretation cautions. SHAP explains the fitted model, not the real-world process. A feature with a large SHAP value is important to the model, and this does not establish a causal effect. When features are correlated, such as NDVI and its neighbourhood mean, importance is shared between them and each individual ranking can be unstable. Explanations are conditional on the training distribution, and extrapolating to other regions is unsafe. SHAP values for a boosted-tree model are typically in log-odds units, while forest models use probability units.
+
+Permutation importance is a complementary model-agnostic check. It measures the drop in a performance metric when one feature is randomly shuffled on held-out data. Agreement between SHAP and permutation importance strengthens confidence in a ranking, and disagreement should be investigated rather than ignored.

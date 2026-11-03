@@ -1,0 +1,84 @@
+{
+  "data_mode": "synthetic",
+  "synthetic": true,
+  "seed": 42,
+  "versions": {
+    "python": "3.12.3",
+    "numpy": "2.4.4",
+    "pandas": "3.0.2",
+    "scikit-learn": "1.8.0",
+    "xgboost": "3.4.1",
+    "shap": "0.54.1",
+    "faiss": "1.15.1",
+    "matplotlib": "3.10.8"
+  },
+  "rag_backend": "TF-IDF + LSA fallback (sentence-transformers unavailable)",
+  "n_samples": 9000,
+  "best_model_heldout": "XGBoost",
+  "tree_model_explained": "XGBoost",
+  "config": {
+    "project": "GeoRAG-ML",
+    "random_seed": 42,
+    "data_mode": "auto",
+    "study_area": {
+      "name": "Natore District, Bangladesh",
+      "gaul_adm2_name": "Natore",
+      "bbox_lonlat": [
+        88.65,
+        24.05,
+        89.35,
+        24.65
+      ],
+      "utm_epsg": 32645
+    },
+    "periods": {
+      "t1": {
+        "label": "2019",
+        "start": "2019-03-01",
+        "end": "2019-04-30"
+      },
+      "t2": {
+        "label": "2025",
+        "start": "2025-03-01",
+        "end": "2025-04-30"
+      }
+    },
+    "grid": {
+      "synthetic_pixel_m": 300,
+      "real_pixel_m": 30
+    },
+    "target": {
+      "name": "urban_heat_risk",
+      "lst_percentile": 75
+    },
+    "sampling": {
+      "n_samples": 9000,
+      "min_valid_fraction": 0.8
+    },
+    "cv": {
+      "block_size_m": 4000,
+      "n_splits": 5,
+      "buffer_blocks": 1,
+      "test_block_fraction": 0.2
+    },
+    "change": {
+      "ndvi_threshold": 0.15,
+      "ndbi_threshold": 0.08,
+      "mndwi_threshold": 0.15
+    },
+    "rag": {
+      "documents_dir": "documents",
+      "extra_documents": [
+        "outputs/model_report.txt"
+      ],
+      "chunk_words": 110,
+      "chunk_overlap_words": 25,
+      "top_k": 4,
+      "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "min_score_dense": 0.3,
+      "min_score_lsa": 0.2,
+      "min_keyword_overlap": 0.34,
+      "llm_model": "claude-sonnet-5-5"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "fig02_satellite_bands.png": "Figure 2. Sentinel-2 bands (B3, B4, B8, B11), a NIR-Red-Green false-colour composite and the cloud/shadow mask for the 2025 composite. Grey stretches use the 2nd-98th percentile.",
+  "fig06_landcover_distribution.png": "Figure 6. Reference land-cover composition (ESA WorldCover codes), and how the high-LST risk class and mean LST differ among classes. The dashed line marks the expected 25% if risk were independent of land cover.",
+  "fig03_ndvi_distribution_map.png": "Figure 3. NDVI maps for 2019 and 2025 (cloud-masked composites) and the corresponding value distributions.",
+  "fig04_ndwi_mndwi_maps.png": "Figure 4. NDWI and MNDWI for 2025 and agreement of the water masks (index > 0). 'NDWI only' pixels are candidate false water detections (for example built-up land) and require inspection against reference data.",
+  "fig05_multitemporal_change_map.png": "Figure 5. Rule-based candidate change from index differences (2019 to 2025). These are spectral-index changes, not validated land-cover transitions: phenology (crop harvest timing), residual cloud and soil moisture can all produce index changes without a land-cover change.",
+  "fig07_correlation_heatmap.png": "Figure 7. Spearman rank correlation among sampled predictors and LST. LST is shown for exploration only and is not a model input. Strongly correlated predictors (for example NDVI and its neighbourhood mean) share explanatory credit.",
+  "fig01_study_area_map.png": "Figure 1. Study area (Natore District, Bangladesh; CRS EPSG:32645). (a) Elevation. (b) 303 spatial blocks split into training, buffer and one contiguous held-out test region, with a subset of sampled pixels.",
+  "fig09_roc_comparison.png": "Figure 9. ROC curves for the four classifiers evaluated on the held-out contiguous test region.",
+  "fig10_confusion_matrices.png": "Figure 10. Confusion matrices on the held-out region (counts; percentages are row-normalised recall per observed class).",
+  "fig13_model_performance_comparison.png": "Figure 13. Model comparison. (a) Five metrics on the held-out region. (b) ROC-AUC under buffered spatial cross-validation (training region) against the held-out test region.",
+  "fig08_feature_importance.png": "Figure 8. Feature importance for XGBoost: (a) model-agnostic permutation importance on the held-out region (mean ± SD over repeats); (b) mean absolute SHAP value. Agreement between the two supports the ranking.",
+  "fig11_shap_summary_beeswarm.png": "Figure 11. SHAP beeswarm summary for XGBoost. Each point is a held-out pixel; colour shows the feature value. SHAP describes the fitted model's behaviour, not a causal effect.",
+  "fig11b_shap_feature_importance.png": "Figure 11b. Global SHAP importance (mean absolute SHAP value) for XGBoost.",
+  "fig12_shap_dependence.png": "Figure 12. SHAP dependence plots for the two most influential features of XGBoost; colour shows the feature with the strongest estimated interaction.",
+  "fig14_environmental_risk_prediction_map.png": "Figure 14. (a) Predicted probability of the high-LST risk class from XGBoost trained on non-test blocks (black outline: held-out region, the only area where the prediction is out-of-sample). (b) Observed class. (c) Agreement inside the held-out region.",
+  "fig15_rag_retrieval_similarity.png": "Figure 15. Best query-to-document cosine similarity for a hand-written evaluation question set. Red boxes mark the document that should answer the question. Out-of-scope questions (no red box) should stay below the evidence threshold."
+}

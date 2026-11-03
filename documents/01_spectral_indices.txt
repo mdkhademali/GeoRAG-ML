@@ -1,0 +1,13 @@
+Spectral Indices for Environmental Monitoring: NDVI, NDWI, MNDWI and NDBI
+
+Spectral indices combine reflectance in two or more bands to emphasise a surface property and reduce the influence of illumination and topography. All four indices used in GeoRAG-ML are normalised differences, so values fall between -1 and 1.
+
+The Normalized Difference Vegetation Index (NDVI) is computed as (NIR - Red) / (NIR + Red), following Rouse and colleagues (1974). Healthy green vegetation reflects strongly in the near-infrared and absorbs red light, which produces high NDVI. Water, clouds and bare surfaces give low or negative values. NDVI saturates over dense canopies and responds to crop phenology, so a low NDVI over cropland in the pre-monsoon season can reflect harvest timing rather than land degradation.
+
+The Normalized Difference Water Index (NDWI) of McFeeters (1996) is (Green - NIR) / (Green + NIR). Open water reflects more green than near-infrared light, so water tends to be positive. Built-up surfaces can also produce positive NDWI, which causes false water detections in urban areas.
+
+The Modified NDWI (MNDWI) of Xu (2006) replaces the near-infrared band with shortwave infrared: (Green - SWIR1) / (Green + SWIR1). It suppresses built-up noise and generally separates open water from built-up land better than NDWI. Turbid river water and shallow water can still be misclassified.
+
+The Normalized Difference Built-up Index (NDBI) of Zha and colleagues (2003) is (SWIR1 - NIR) / (SWIR1 + NIR). Built-up land and bare soil reflect more shortwave infrared than near-infrared light and give higher values. NDBI is confounded by dry bare soil and harvested fields, so it indicates built-up or bare conditions rather than confirming urban land cover.
+
+Index thresholds are scene, sensor and season dependent. A change in an index between two dates is evidence of a spectral change, not a validated land-cover transition. Confirming a transition requires independent reference data and an accuracy assessment.

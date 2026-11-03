@@ -1,0 +1,11 @@
+Landsat Collection 2 Level-2 Surface Reflectance and Surface Temperature
+
+Landsat 8 (launched in 2013) and Landsat 9 (launched in September 2021) carry the Operational Land Imager (OLI) and the Thermal Infrared Sensor (TIRS). Each satellite revisits a location every 16 days, and the two together provide an 8-day combined revisit. Earth Engine collections are LANDSAT/LC08/C02/T1_L2 and LANDSAT/LC09/C02/T1_L2.
+
+Surface reflectance bands (SR_B1 to SR_B7) are converted to reflectance with a scale factor of 0.0000275 and an offset of -0.2. Surface temperature band ST_B10 is converted to Kelvin with a scale factor of 0.00341802 and an offset of 149.0, then to degrees Celsius by subtracting 273.15. The ST_QA band gives a per-pixel uncertainty estimate for the temperature product.
+
+Cloud masking uses the QA_PIXEL band. Bit 1 flags dilated cloud, bit 2 cirrus, bit 3 cloud, bit 4 cloud shadow and bit 5 snow. A pixel is treated as clear when none of these bits are set. Thermal data are especially sensitive to undetected cloud, because cloud tops are cold and bias land surface temperature low.
+
+The thermal band is acquired at 100 m resolution and resampled to 30 m in the Level-2 product. Land surface temperature (LST) is the radiative skin temperature of the surface, which differs from air temperature. LST varies strongly with land cover, soil moisture, vegetation, time of day and season. Landsat overpasses occur in the late morning, so LST from Landsat does not represent daily maximum or night-time conditions.
+
+In GeoRAG-ML the target variable is derived from Landsat LST, while predictors come from Sentinel-2, SRTM and CHIRPS. Using a different sensor for the target reduces direct leakage between target and predictors.

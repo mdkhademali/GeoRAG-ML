@@ -1,0 +1,13 @@
+Retrieval-Augmented Generation for Scientific Documentation
+
+Retrieval-augmented generation combines a retrieval step with an answer step so that answers are grounded in supplied documents (Lewis and colleagues, 2020). The GeoRAG-ML pipeline ingests PDF and plain-text files, extracts text, and splits it into overlapping chunks of about 110 words, cut at sentence boundaries. Overlap preserves context across chunk borders.
+
+Each chunk is embedded as a vector. The preferred embedding model is a Sentence-Transformers model (Reimers and Gurevych, 2019). When that model cannot be downloaded, the pipeline falls back to TF-IDF followed by latent semantic analysis, and it reports which backend is active. Vectors are L2-normalised so that the inner product equals cosine similarity.
+
+Vectors are stored in a FAISS index (Johnson and colleagues, 2019). An exact inner-product index is used because the corpus is small. A question is embedded the same way, and the top-k most similar chunks are returned with their similarity scores and source file names.
+
+Evidence sufficiency. A question is answered only when the best similarity score exceeds a threshold and the retrieved text shares enough keywords with the question. Otherwise the system reports that evidence is insufficient. Thresholds depend on the embedding model and should be calibrated on a labelled question set.
+
+Answer generation. By default the system returns evidence sentences copied from the retrieved chunks, each tagged with its source document. A generative language model is used only if an API key is configured, and it is instructed to answer from the retrieved context alone and to cite sources. Without a key, no language-model text is produced.
+
+Known limitations: retrieval can miss relevant passages when wording differs from the question, similarity scores do not guarantee factual correctness, and answers are limited by the content and quality of the indexed documents.

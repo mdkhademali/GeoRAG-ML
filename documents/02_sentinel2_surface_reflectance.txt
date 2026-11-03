@@ -1,0 +1,11 @@
+Sentinel-2 Surface Reflectance Data Documentation
+
+Sentinel-2 carries the MultiSpectral Instrument (MSI) and provides optical imagery in 13 spectral bands. A constellation of two satellites gives a revisit time of about five days at the equator. The bands used in this project are B3 (green, about 560 nm, 10 m), B4 (red, about 665 nm, 10 m), B8 (near-infrared, about 842 nm, 10 m) and B11 (shortwave infrared 1, about 1610 nm, 20 m).
+
+On Google Earth Engine, the harmonized Level-2A collection is COPERNICUS/S2_SR_HARMONIZED. Reflectance digital numbers are scaled by 10000, so reflectance equals the digital number multiplied by 0.0001. The harmonized collection corrects the radiometric offset introduced by processing baseline 04.00 in January 2022, which keeps time series consistent across that change.
+
+Cloud and shadow masking uses the Scene Classification Layer (SCL) band. SCL values are: 0 no data, 1 saturated or defective, 2 dark area pixels, 3 cloud shadows, 4 vegetation, 5 not vegetated, 6 water, 7 unclassified, 8 cloud medium probability, 9 cloud high probability, 10 thin cirrus, 11 snow or ice. GeoRAG-ML masks classes 3, 8, 9, 10 and 11 before computing indices. SCL-based masking can miss thin clouds and haze, and it can wrongly flag bright built-up surfaces, so a median composite over a date window is used to reduce residual contamination.
+
+B11 is natively 20 m. When bands are combined at 10 m, B11 is resampled, so SWIR-based indices such as MNDWI and NDBI have an effective resolution coarser than the 10 m bands. In this project all layers are aggregated to a common 30 m grid.
+
+Surface reflectance depends on atmospheric correction quality, view and sun geometry, and the seasonal window. Composites from different years should use the same calendar window to limit phenological differences.
