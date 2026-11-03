@@ -160,7 +160,7 @@ Breiman (2001); Chen & Guestrin (2016); Farr et al. (2007); Funk et al. (2015); 
 
 ## 16. Author and citation
 
-**Md Khadem Ali** — Head of Geospatial & Data Analytics, Centre for Environmental Research & Innovation (CERI); Department of Geography and Environment, National University, Bangladesh. [khademali.com](https://khademali.com) · [GitHub](https://github.com/mdkhademali)
+**Md Khadem Ali**, Department of Geography and Environment, National University, Bangladesh. [khademali.com](https://khademali.com) · [GitHub](https://github.com/mdkhademali)
 
 ```bibtex
 @software{ali2026georagml,
